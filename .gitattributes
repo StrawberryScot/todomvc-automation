@@ -1,0 +1,26 @@
+# Default: use LF
+* text eol=lf
+
+# Windows batch files must stay CRLF
+*.bat text eol=crlf
+
+# Shell scripts (including gradlew) should be LF
+*.sh text eol=lf
+
+# Java source files
+*.java text eol=lf
+
+# Gradle files
+*.gradle text eol=lf
+gradle.properties text eol=lf
+
+# Common text formats
+*.md text eol=lf
+*.txt text eol=lf
+
+# Ignore line-ending normalization for binary files
+*.jar binary
+*.png binary
+*.jpg binary
+*.gif binary
+*.zip binary
