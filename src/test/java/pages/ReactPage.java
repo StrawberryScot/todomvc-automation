@@ -42,48 +42,46 @@ public class ReactPage {
     }
 
     // methods
-    public void deleteItem() {
-        WebElement deleteButton = driver.findElement(deleteButtonBy);
-        deleteButton.click();
+    public void clickElement(WebElement Element) {
+        Element.click();
     }
 
-    public String fetchItemCountText() {
+    //public void deleteItem() {
+    //    WebElement deleteButton = driver.findElement(deleteButtonBy);
+    //    deleteButton.click();
+    //}
+
+    public String getItemCountText() {
         WebElement headingItemCounter = driver.findElement(headingItemCounterBy);
         return headingItemCounter.getText();
     }
 
-    public void clickClearButton() {
-        WebElement buttonClearCompleted = driver.findElement(buttonClearCompletedBy);
-        buttonClearCompleted.click();
+    public WebElement getClearButton() {
+        return driver.findElement(buttonClearCompletedBy);
     }
 
 
-    public void clickFilterCompletedButton() {
-        WebElement buttonFilterCompleted = driver.findElement(buttonFilterCompletedBy);
-        buttonFilterCompleted.click();
+    public WebElement getFilterCompletedButton() {
+        return driver.findElement(buttonFilterCompletedBy);
     }
 
-    public void clickFilterActiveButton() {
-        WebElement buttonFilterActive = driver.findElement(buttonFilterActiveBy);
-        buttonFilterActive.click();
+    public WebElement getFilterActiveButton() {
+        return driver.findElement(buttonFilterActiveBy);
     }
 
-    public void clickFilterAllButton() {
-        WebElement buttonFilterAll = driver.findElement(buttonFilterAllBy);
-        buttonFilterAll.click();
+    public WebElement getFilterAllButton() {
+        return driver.findElement(buttonFilterAllBy);
     }
 
-    public void toggleAll() {
-        WebElement toggleSelectAll = driver.findElement(toggleSelectAllBy);
-        toggleSelectAll.click();
+    public WebElement getToggleAll() {
+        return driver.findElement(toggleSelectAllBy);
     }
 
-    public List<String> listTodoItems() {
-        WebElement listTodoItems = driver.findElement(listTodoItemsBy);
-        listTodoItems.
+    // public List<String> listTodoItems() {
+    //    WebElement listTodoItems = driver.findElement(listTodoItemsBy);
+    //    listTodoItems.
 
-    }
-
+    //}
 
     public void createNewTodo(String newTodo) {
         WebElement inputField = driver.findElement(inputFieldBy);
