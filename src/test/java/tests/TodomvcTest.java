@@ -1,5 +1,7 @@
 package tests;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -7,6 +9,19 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TodomvcTest {
+    private static WebDriver driver;
+
+    @BeforeAll
+    static void setUp() {
+        driver = new ChromeDriver();
+    }
+
+    @AfterAll
+    static void tearDown() {
+        driver.quit();
+    }
+
+
     // To automate now
     // TODO: TEST 1 Can't add an item with an empty value
     // TODO: TEST 2 Can add a value with a single character
@@ -18,8 +33,6 @@ public class TodomvcTest {
     // TODO: Status bar always displays a count of remaining todo items left to do
 
     // example test
-    private static WebDriver driver;
-
     @Test
     public void todomvcTitleIsCorrect() {
         driver = new ChromeDriver();
