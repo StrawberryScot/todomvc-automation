@@ -8,17 +8,25 @@ public class ReactPage {
     protected WebDriver driver;
 
     // locators
-    private By buttonDeleteBy = By.cssSelector("delete_button");
-    private By inputFieldBy = By.cssSelector("input_field");
-    private By editFieldBy = By.cssSelector("edit_field");
-    private By listTodoItemsBy = By.cssSelector("todo_items_list");
-    private By toggleCheckboxBy = By.cssSelector("toggle");
-    private By toggleSelectAllBy = By.cssSelector("chevron");
-    private By buttonFilterAll = By.cssSelector("all_button");
-    private By buttonFilterActive = By.cssSelector("active_button");
-    private By buttonFilterCompleted = By.cssSelector("completed_button");
-    private By buttonClearCompleted = By.cssSelector("clear_completed_button");
-    private By headingItemCounter = By.cssSelector("item_counter");
+    private By singleButtonDeleteBy = By.cssSelector(".destroy");
+    private By singleToggleCheckboxBy = By.cssSelector(".toggle");
+     private By singleLabelItemBy = By.cssSelector(".view > label");
+    // individual items above
+
+    private By buttonDeleteBy = By.cssSelector("li:nth-child(2) .destroy");
+    private By toggleCheckboxBy = By.cssSelector("li:nth-child(2) .toggle");
+    private By labelItemBy = By.cssSelector("li:nth-child(2) label");
+    private By editItemBy = By.cssSelector(".input-container:nth-child(1) > #todo-input");
+    // above is index specific. MUST CHANGE
+
+    private By inputFieldBy = By.id("todo-input");
+    private By listTodoItemsBy = By.className("todo-list");
+    private By toggleSelectAllBy = By.id("toggle-all");
+    private By buttonFilterAll = By.linkText("All");
+    private By buttonFilterActive = By.linkText("Active");
+    private By buttonFilterCompleted = By.linkText("Completed");
+    private By buttonClearCompleted = By.cssSelector(".clear-completed");
+    private By headingItemCounter = By.className("todo-count");
 
     // methods
     public void deleteItem() {
