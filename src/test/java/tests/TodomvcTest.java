@@ -1,3 +1,5 @@
+package tests;
+
 public class TodomvcTest {
     // To automate now
     // TODO: TEST 1 Can't add an item with an empty value
