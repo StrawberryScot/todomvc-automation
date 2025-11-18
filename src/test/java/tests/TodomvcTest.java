@@ -1,5 +1,11 @@
 package tests;
 
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class TodomvcTest {
     // To automate now
     // TODO: TEST 1 Can't add an item with an empty value
@@ -10,6 +16,19 @@ public class TodomvcTest {
     // TODO: TEST 8 Can add another todo item to list
     // TODO: TEST 15 Can clear complete todo items when >0 completed todo items are listed
     // TODO: Status bar always displays a count of remaining todo items left to do
+
+    // example test
+    private static WebDriver driver;
+
+    @Test
+    public void todomvcTitleIsCorrect() {
+        driver = new ChromeDriver();
+        driver.get("https://todomvc.com/examples/react/dist/");
+        String title = driver.getTitle();
+        assertEquals("TodoMVC: React", title);
+        System.out.printf("The title is %s.\n", title);
+        driver.quit();
+    }
 
 
     // To automate later
