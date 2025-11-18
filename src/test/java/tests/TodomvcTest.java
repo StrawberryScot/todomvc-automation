@@ -5,8 +5,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import pages.ReactPage;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TodomvcTest {
     private static WebDriver driver;
@@ -21,9 +22,15 @@ public class TodomvcTest {
         driver.quit();
     }
 
-
     // To automate now
     // TODO: TEST 1 Can't add an item with an empty value
+    @Test
+    public void shouldNotAddItemOfEmptyValue() {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+        reactPage.createNewTodo("");
+        // AAAAAAAAAAA
+    }
     // TODO: TEST 2 Can add a value with a single character
     // TODO: TEST 3 Can delete a single item
     // TODO: TEST 6 Can modify existing todo item
