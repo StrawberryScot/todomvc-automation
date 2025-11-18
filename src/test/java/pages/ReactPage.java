@@ -31,6 +31,11 @@ public class ReactPage {
     private final By buttonClearCompletedBy = By.cssSelector(".clear-completed");
     private final By headingItemCounterBy = By.className("todo-count");
 
+    // navigation
+    public void navigate() {
+        driver.get("https://todomvc.com/examples/react/dist");
+    }
+
     // methods
     public void deleteItem() {
         WebElement deleteButton = driver.findElement(deleteButtonBy);
