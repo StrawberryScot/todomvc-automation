@@ -5,7 +5,9 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.sql.Array;
 import java.util.List;
+import java.util.Optional;
 
 public class ReactPage {
     protected WebDriver driver;
@@ -42,8 +44,8 @@ public class ReactPage {
     }
 
     // methods
-    public void clickElement(WebElement Element) {
-        Element.click();
+    public void clickElement(Optional<WebElement> opt) {
+        opt.ifPresent(WebElement::click);
     }
 
     //public void deleteItem() {
@@ -56,10 +58,10 @@ public class ReactPage {
         return headingItemCounter.getText();
     }
 
-    public WebElement getClearButton() {
-        return driver.findElement(buttonClearCompletedBy);
+    public Optional<WebElement> getClearButton() {
+        List<WebElement> elements = driver.findElements(buttonClearCompletedBy);
+        return elements.stream().findFirst();
     }
-
 
     public WebElement getFilterCompletedButton() {
         return driver.findElement(buttonFilterCompletedBy);
