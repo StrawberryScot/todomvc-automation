@@ -43,7 +43,8 @@ public class ReactPage {
         driver.get("https://todomvc.com/examples/react/dist");
     }
 
-    // methods
+   // ACTION methods
+
     public void clickElement(Optional<WebElement> opt) {
         opt.ifPresent(WebElement::click);
     }
@@ -53,9 +54,17 @@ public class ReactPage {
     //    deleteButton.click();
     //}
 
-    public String getItemCountText() {
-        WebElement headingItemCounter = driver.findElement(headingItemCounterBy);
-        return headingItemCounter.getText();
+    public void createNewTodo(String newTodo) {
+        WebElement inputField = driver.findElement(inputFieldBy);
+        inputField.sendKeys(newTodo);
+        inputField.sendKeys(Keys.ENTER);
+    }
+
+    // GET methods
+
+    public Optional<WebElement> getItemCountElement() {
+        List<WebElement> elements = driver.findElements(headingItemCounterBy);
+        return elements.stream().findFirst();
     }
 
     public Optional<WebElement> getClearButton() {
@@ -63,35 +72,28 @@ public class ReactPage {
         return elements.stream().findFirst();
     }
 
-    public WebElement getFilterCompletedButton() {
-        return driver.findElement(buttonFilterCompletedBy);
+    public Optional<WebElement> getFilterCompletedButton() {
+        List<WebElement> elements = driver.findElements(buttonFilterCompletedBy);
+        return elements.stream().findFirst();
     }
 
-    public WebElement getFilterActiveButton() {
-        return driver.findElement(buttonFilterActiveBy);
+    public Optional<WebElement> getFilterActiveButton() {
+        List<WebElement> elements = driver.findElements(buttonFilterActiveBy);
+        return elements.stream().findFirst();
     }
 
-    public WebElement getFilterAllButton() {
-        return driver.findElement(buttonFilterAllBy);
+    public Optional<WebElement> getFilterAllButton() {
+        List<WebElement> elements = driver.findElements(buttonFilterAllBy);
+        return elements.stream().findFirst();
     }
 
-    public WebElement getToggleAll() {
-        return driver.findElement(toggleSelectAllBy);
+    public Optional<WebElement> getToggleAll() {
+        List<WebElement> elements = driver.findElements(toggleSelectAllBy);
+        return elements.stream().findFirst();
     }
 
-    // public List<String> listTodoItems() {
-    //    WebElement listTodoItems = driver.findElement(listTodoItemsBy);
-    //    listTodoItems.
-
-    //}
-
-    public void createNewTodo(String newTodo) {
-        WebElement inputField = driver.findElement(inputFieldBy);
-        inputField.sendKeys(newTodo);
-        inputField.sendKeys(Keys.ENTER);
-    }
-
-
-
-
+    public List<WebElement> getListTodoItems() {
+         return driver.findElements(listTodoItemsBy);
+     }
+     
 }
