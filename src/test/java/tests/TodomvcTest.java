@@ -4,8 +4,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.ReactPage;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,6 +32,10 @@ public class TodomvcTest {
         ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
         reactPage.createNewTodo("");
+        Optional<WebElement> clearButton = reactPage.getClearButton();
+        assertTrue(clearButton.isEmpty());
+        reactPage.clickElement(clearButton);
+        //reactPage.createNewTodo("");
         // AAAAAAAAAAA
     }
     // TODO: TEST 2 Can add a value with a single character
