@@ -31,10 +31,12 @@ public class TodomvcTest {
     public void shouldNotAddItemOfEmptyValue() {
         ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
-        reactPage.createNewTodo("");
+        reactPage.createNewTodo("Walk the cat");
         Optional<WebElement> clearButton = reactPage.getClearButton();
         assertTrue(clearButton.isEmpty());
-        reactPage.clickElement(clearButton);
+        reactPage.getDeleteButton(0);
+
+
         //reactPage.createNewTodo("");
         // AAAAAAAAAAA
     }
