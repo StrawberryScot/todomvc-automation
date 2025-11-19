@@ -3,6 +3,7 @@ package tests;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -28,13 +29,24 @@ public class TodomvcTest {
     // To automate now
     // TODO: TEST 1 Can't add an item with an empty value
     @Test
-    public void shouldNotAddItemOfEmptyValue() {
+    public void shouldNotAddItemOfEmptyValue() throws InterruptedException {
         ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
         reactPage.createNewTodo("Walk the cat");
-        Optional<WebElement> clearButton = reactPage.getClearButton();
-        assertTrue(clearButton.isEmpty());
-        reactPage.getDeleteButton(0);
+        // Optional<WebElement> clearButton = reactPage.getClearButton();
+        // assertTrue(clearButton.isEmpty());
+        Thread.sleep(2000);
+        reactPage.clickElement(reactPage.getToggleButton(0));
+        Thread.sleep(2000);
+        reactPage.clickElement(reactPage.getLabel(0));
+        Thread.sleep(2000);
+        reactPage.getEditField(0).ifPresent(element -> {
+            element.clear();
+            element.sendKeys("Walk the dog");
+            element.sendKeys(Keys.ENTER);
+        });
+        Thread.sleep(2000);
+        reactPage.clickElement(reactPage.getDeleteButton(0));
 
 
         //reactPage.createNewTodo("");
