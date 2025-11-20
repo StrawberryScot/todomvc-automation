@@ -22,7 +22,7 @@ public class ReactPage {
     // above is index specific. MUST CHANGE
 
     private final By inputFieldBy = By.id("todo-input");
-    private final By listTodoItemsBy = By.className("todo-list");
+    private final By listTodoItemsBy = By.cssSelector(".view");
     private final By toggleSelectAllBy = By.id("toggle-all");
     private final By buttonFilterAllBy = By.linkText("All");
     private final By buttonFilterActiveBy = By.linkText("Active");
