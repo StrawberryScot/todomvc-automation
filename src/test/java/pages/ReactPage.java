@@ -210,16 +210,6 @@ public class ReactPage {
         return label.map(WebElement::getText).orElse("");
     }
 
-    // Helper method to check if complete
-//    public boolean isComplete(int index) {
-////        Optional<WebElement> todoOpt = getIndividualTodoItem(index);
-////        if (todoOpt.isEmpty()) {
-////            return false;
-//        }
-//        WebElement todo = todoOpt.get();
-//        String className = todo.getAttribute("class");
-//        return className != null && className.contains("completed");
-
 
     // Helper method to get status bar text
     public String getItemsLeftText() {

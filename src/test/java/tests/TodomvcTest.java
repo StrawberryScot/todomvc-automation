@@ -129,18 +129,30 @@ public class TodomvcTest {
     }
 
     // Specific edge case - editing completed todo
-//    @Test
-//    @DisplayName("TEST 6.3: Can modify completed todo")
-//    public void shouldModifyCompletedTodo() {
-//        ReactPage reactPage = new ReactPage(driver);
-//        reactPage.navigate();
-//        reactPage.createNewTodo("Task");
-//        reactPage.clickElement(reactPage.getToggleButton(0));
-//        reactPage.editTodo(0, "Modified");
-//
-//        assertEquals("Modified", reactPage.getTodoText(0));
-//        assertTrue(reactPage.isComplete(0));
-//    }
+    @Test
+    @DisplayName("TEST 6.3: Can modify completed todo")
+    public void shouldModifyCompletedTodo() {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+        // Create a todo
+        reactPage.createNewTodo("Original task");
+
+        // Mark it complete
+        reactPage.clickElement(reactPage.getToggleButton(0));
+
+        // Verify it's complete
+        assertTrue(reactPage.isComplete(0), "Todo should be marked complete");
+
+        // Edit the completed todo
+        reactPage.editTodo(0, "Modified task");
+
+        // Verify changes
+        assertEquals("Modified task", reactPage.getTodoText(0),
+                "Text should be updated");
+        assertTrue(reactPage.isComplete(0),
+                "Todo should remain complete after editing");
+    }
+
 
 // TODO: TEST 7 Pressing Escape during item modification cancels modification
 //TEST 7
