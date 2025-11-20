@@ -76,27 +76,12 @@ public class TodomvcTest {
         reactPage.clickElement(reactPage.getDeleteButton(0));
         assertEquals(Optional.empty(), reactPage.getIndividualTodoItem(0));
     }
-    // TODO: TEST 6 Can modify existing todo item
-    // TODO: TEST 7 Pressing Escape during item modification cancels modification
 
 
-// Item Modification Tests (6 + 7):
 
-//    @Test
-//    @DisplayName("TEST 6: Can modify existing todo item")
-//    public void shouldSuccessfullyModifyExistingTodo() {
-//        ReactPage reactPage = new ReactPage(driver);
-//        reactPage.navigate();
-//        reactPage.createNewTodo("make a sandwich");
-//        assertEquals("make a sandwich", reactPage.getTodoText(0));
-//
-//        reactPage.editTodo(0, "make a cake");
-//
-//        assertEquals("make a cake", reactPage.getTodoText(0));
-//        assertFalse(reactPage.isComplete(0));
-//        assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
-//    }
 
+
+// TODO: TEST 6 Can modify existing todo item
     // TEST 6
     // Main parameterized test - covers common scenarios
     @ParameterizedTest(name = "Modify: ''{0}'' to ''{1}''")
@@ -147,7 +132,7 @@ public class TodomvcTest {
         assertTrue(reactPage.isComplete(0));
     }
 
-
+// TODO: TEST 7 Pressing Escape during item modification cancels modification
 //TEST 7
 
     @ParameterizedTest(name = "{0}")
