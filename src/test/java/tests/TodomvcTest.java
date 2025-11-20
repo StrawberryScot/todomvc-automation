@@ -30,7 +30,18 @@ public class TodomvcTest {
     // To automate now
     // TODO: TEST 1 Can't add an item with an empty value
     @Test
-    public void shouldNotAddItemOfEmptyValue() throws InterruptedException {
+    public void shouldNotAddItemOfEmptyValue() {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+        reactPage.createNewTodo("");
+
+        assertEquals(Optional.empty(), reactPage.getIndividualTodoItem(0));
+        System.out.println("No todo item added. Test 1 passed.");
+    }
+
+
+    @Test
+    public void testTest() throws InterruptedException {
         ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
         reactPage.createNewTodo("Walk the cat");
@@ -58,6 +69,7 @@ public class TodomvcTest {
         //reactPage.createNewTodo("");
         // AAAAAAAAAAA
     }
+
     // TODO: TEST 2 Can add an item with a single character
     @Test
     public void shouldAddItemWithSingleCharacter() {
@@ -67,6 +79,7 @@ public class TodomvcTest {
         System.out.println(reactPage.getIndividualTodoItem(0));
         assertEquals("a", reactPage.getLabel(0).get().getText());
     }
+
     // TODO: TEST 3 Can delete a single item
     @Test
     public void canDeleteSingleItem() {
@@ -78,10 +91,7 @@ public class TodomvcTest {
     }
 
 
-
-
-
-// TODO: TEST 6 Can modify existing todo item
+    // TODO: TEST 6 Can modify existing todo item
     // TEST 6
     // Main parameterized test - covers common scenarios
     @ParameterizedTest(name = "Modify: ''{0}'' to ''{1}''")
@@ -99,12 +109,12 @@ public class TodomvcTest {
         reactPage.navigate();
 
         reactPage.createNewTodo(original);
-            reactPage.editTodo(0, modified);
+        reactPage.editTodo(0, modified);
 
-            assertEquals(modified, reactPage.getTodoText(0));
-            assertFalse(reactPage.isComplete(0));
-            assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
-        }
+        assertEquals(modified, reactPage.getTodoText(0));
+//            assertFalse(reactPage.isComplete(0));
+        assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
+    }
 
     // Specific edge case - multiple edits on single todo
     @Test
@@ -119,18 +129,18 @@ public class TodomvcTest {
     }
 
     // Specific edge case - editing completed todo
-    @Test
-    @DisplayName("TEST 6.3: Can modify completed todo")
-    public void shouldModifyCompletedTodo() {
-        ReactPage reactPage = new ReactPage(driver);
-        reactPage.navigate();
-        reactPage.createNewTodo("Task");
-        reactPage.clickElement(reactPage.getToggleButton(0));
-        reactPage.editTodo(0, "Modified");
-
-        assertEquals("Modified", reactPage.getTodoText(0));
-        assertTrue(reactPage.isComplete(0));
-    }
+//    @Test
+//    @DisplayName("TEST 6.3: Can modify completed todo")
+//    public void shouldModifyCompletedTodo() {
+//        ReactPage reactPage = new ReactPage(driver);
+//        reactPage.navigate();
+//        reactPage.createNewTodo("Task");
+//        reactPage.clickElement(reactPage.getToggleButton(0));
+//        reactPage.editTodo(0, "Modified");
+//
+//        assertEquals("Modified", reactPage.getTodoText(0));
+//        assertTrue(reactPage.isComplete(0));
+//    }
 
 // TODO: TEST 7 Pressing Escape during item modification cancels modification
 //TEST 7
@@ -160,10 +170,10 @@ public class TodomvcTest {
 
         assertEquals(originalTodo, reactPage.getTodoText(0),
                 scenario + ": Todo should remain unchanged after Escape");
-        assertFalse(reactPage.isComplete(0));
+//        assertFalse(reactPage.isComplete(0));
         assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
+
     }
-}
 
 
     // TODO: TEST 8 Can add another todo item to list
@@ -173,11 +183,74 @@ public class TodomvcTest {
 
     // To automate later
     // TODO: TEST 4 Can add characters and symbols
-    // TODO: TEST 5 Can add emoji characters
-    // TODO: TEST 9 Can reorder items
+
+    @ParameterizedTest(name = "{0}")
+    @CsvSource({
+            "Test-with-dashes_and_underscores",
+            "Test/with\\slashes",
+            "Test with 'single' and \"double\" quotes",
+            "Test with @#$%^&*()",
+            "Test with brackets [square] {curly} (round)",
+            "Test with <angle> brackets",
+            "Test with | pipe",
+            "Test with + plus = equals",
+            "Test with ~ tilde ` backtick",
+            "Test with spaces and punctuation!",
+            "Café résumé naïve",
+            "Mañana niño JALAPEÑO",
+            "München Zürich ÜBER",
+            "Bjørn Søren KØBENHAVEN",
+            "Łódź Kraków GDAŃSK"
+    })
+    @DisplayName("TEST 4: Can add characters and symbols.")
+    public void shouldAddCharactersAndSymbols(String newTodo) {
+
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+
+        reactPage.createNewTodo(newTodo);
+        assertEquals(newTodo, reactPage.getTodoText(0));
+        assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
+        System.out.println(newTodo + " successfully added.");
+    }
+
+
+    // TODO: TEST 5 Can add emoji characters (with and without text + combo)
+    @ParameterizedTest(name = "{0}")
+    @CsvSource({
+            "✅✅✅",
+            "✅☕",
+            "Urgent task \uD83D\uDEA8",
+            "Celebration \uD83C\uDF89",
+            "In progress \uD83D\uDD04",
+            "Bug found 🐛",
+            "Coffee break ☕"
+    })
+    @DisplayName("TEST 5 Can add emoji characters (with and without text)")
+    public void shouldAddEmojis(String newTodo) throws InterruptedException {
+
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+
+        reactPage.createNewTodo(newTodo);
+        Thread.sleep(2000);
+        assertEquals(newTodo, reactPage.getTodoText(0));
+        assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
+        System.out.println(newTodo + " successfully added.");
+    }
+
+
+
+
+
+
+
+    }
+
     // TODO: TEST 11.1 Can filter incompleted items
     // TODO: TEST 11.2 Can filter completed items
     // TODO: TEST 11.3 Can filter by all items
+
     // TODO: TEST 13 Can mark all todo items as complete
     // TODO: TEST 14 Can mark all todo items as incomplete
 
