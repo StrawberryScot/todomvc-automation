@@ -65,22 +65,75 @@ public class TodomvcTest {
     // TODO: TEST 7 Pressing Escape during item modification cancels modification
 
 
-// Modification Tests 6 + 7:
+// Item Modification Tests (6 + 7):
 
-    @Test
-    @DisplayName("TEST 6: Can modify existing todo item")
-    public void shouldSuccessfullyModifyExistingTodo() {
+//    @Test
+//    @DisplayName("TEST 6: Can modify existing todo item")
+//    public void shouldSuccessfullyModifyExistingTodo() {
+//        ReactPage reactPage = new ReactPage(driver);
+//        reactPage.navigate();
+//        reactPage.createNewTodo("make a sandwich");
+//        assertEquals("make a sandwich", reactPage.getTodoText(0));
+//
+//        reactPage.editTodo(0, "make a cake");
+//
+//        assertEquals("make a cake", reactPage.getTodoText(0));
+//        assertFalse(reactPage.isComplete(0));
+//        assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
+//    }
+
+    // TEST 6
+    // Main parameterized test - covers common scenarios
+    @ParameterizedTest(name = "Modify: ''{0}'' to ''{1}''")
+    @CsvSource({
+            "make a sandwich, make a cake",
+            "Short, Much longer task with more details",
+            "Very long task description, Short",
+            "Buy milk, Buy milk and eggs",
+            "Task123, Task456",
+            "meeting, MEETING"
+    })
+    @DisplayName("TEST 6.1: Can modify existing todo item")
+    public void shouldSuccessfullyModifyExistingTodo(String original, String modified) {
         ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
-        reactPage.createNewTodo("make a sandwich");
-        assertEquals("make a sandwich", reactPage.getTodoText(0));
 
-        reactPage.editTodo(0, "make a cake");
+        reactPage.createNewTodo(original);
+            reactPage.editTodo(0, modified);
 
-        assertEquals("make a cake", reactPage.getTodoText(0));
-        assertFalse(reactPage.isComplete(0));
-        assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
+            assertEquals(modified, reactPage.getTodoText(0));
+            assertFalse(reactPage.isComplete(0));
+            assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
+        }
+
+    // Specific edge case - multiple edits on single todo
+    @Test
+    @DisplayName("TEST 6.2: Can modify same todo multiple times")
+    public void shouldModifyMultipleTimes() {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+        reactPage.createNewTodo("V1");
+        reactPage.editTodo(0, "V2");
+        reactPage.editTodo(0, "V3");
+        assertEquals("V3", reactPage.getTodoText(0));
     }
+
+    // Specific edge case - editing completed todo
+    @Test
+    @DisplayName("TEST 6.3: Can modify completed todo")
+    public void shouldModifyCompletedTodo() {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+        reactPage.createNewTodo("Task");
+        reactPage.clickElement(reactPage.getToggleButton(0));
+        reactPage.editTodo(0, "Modified");
+
+        assertEquals("Modified", reactPage.getTodoText(0));
+        assertTrue(reactPage.isComplete(0));
+    }
+
+
+//TEST 7
 
     @ParameterizedTest(name = "{0}")
     @CsvSource({
@@ -127,4 +180,4 @@ public class TodomvcTest {
     // TODO: TEST 11.3 Can filter by all items
     // TODO: TEST 13 Can mark all todo items as complete
     // TODO: TEST 14 Can mark all todo items as incomplete
-}
+
