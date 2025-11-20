@@ -245,8 +245,59 @@ public class TodomvcTest {
 
 
     // TODO: TEST 11.1 Can filter incompleted items
+    @Test
+    @DisplayName("TEST 11.1 Can filter incompleted items")
+    public void shouldFilterIncompleteItems() {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+
+        reactPage.createNewTodo("Task 1");
+        reactPage.createNewTodo("Task 2");
+        reactPage.createNewTodo("Task 3");
+
+        reactPage.clickElement(reactPage.getToggleButton(0));
+        reactPage.clickElement(reactPage.getToggleButton(2));
+
+        reactPage.clickElement(reactPage.getFilterActiveButton());
+
+        assertEquals("Task 2", reactPage.getTodoText(0));
+    }
     // TODO: TEST 11.2 Can filter completed items
+    @Test
+    @DisplayName("TEST 11.2 Can filter completed items")
+    public void shouldFilterCompletedItems() {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+
+        reactPage.createNewTodo("Task 1");
+        reactPage.createNewTodo("Task 2");
+        reactPage.createNewTodo("Task 3");
+
+        reactPage.clickElement(reactPage.getToggleButton(1));
+
+        reactPage.clickElement(reactPage.getFilterCompletedButton());
+
+        assertEquals("Task 2", reactPage.getTodoText(0));
+    }
     // TODO: TEST 11.3 Can filter by all items
+    @Test
+    @DisplayName("TEST 11.3 Can filter by all items")
+    public void shouldFilterAllItems() {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+
+        reactPage.createNewTodo("Task 1");
+        reactPage.createNewTodo("Task 2");
+        reactPage.createNewTodo("Task 3");
+
+        reactPage.clickElement(reactPage.getToggleButton(1));
+
+        reactPage.clickElement(reactPage.getFilterAllButton());
+
+        assertEquals("Task 1", reactPage.getTodoText(0));
+        assertEquals("Task 2", reactPage.getTodoText(1));
+        assertEquals("Task 3", reactPage.getTodoText(2));
+    }
 
     // TODO: TEST 13 Can mark all todo items as complete
     @Test
@@ -276,7 +327,7 @@ public class TodomvcTest {
         reactPage.createNewTodo("Task 1");
         reactPage.createNewTodo("Task 2");
         reactPage.createNewTodo("Task 3");
-        
+
         reactPage.clickElement(reactPage.getToggleButton(1));
         reactPage.clickElement(reactPage.getToggleAll());
         reactPage.clickElement(reactPage.getToggleAll());
