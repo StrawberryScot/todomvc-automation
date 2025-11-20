@@ -45,16 +45,30 @@ public class TodomvcTest {
             element.sendKeys("Walk the dog");
             element.sendKeys(Keys.ENTER);
         });
-        Thread.sleep(2000);
         reactPage.clickElement(reactPage.getDeleteButton(0));
 
 
         //reactPage.createNewTodo("");
         // AAAAAAAAAAA
     }
-    // TODO: TEST 2 Can add a value with a single character
-    // test
+    // TODO: TEST 2 Can add an item with a single character
+    @Test
+    public void shouldAddItemWithSingleCharacter() {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+        reactPage.createNewTodo("a");
+        System.out.println(reactPage.getIndividualTodoItem(0));
+        assertEquals("a", reactPage.getLabel(0).get().getText());
+    }
     // TODO: TEST 3 Can delete a single item
+    @Test
+    public void canDeleteSingleItem() {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+        reactPage.createNewTodo("task");
+        reactPage.clickElement(reactPage.getDeleteButton(0));
+        assertEquals(Optional.empty(), reactPage.getIndividualTodoItem(0));
+    }
     // TODO: TEST 6 Can modify existing todo item
     // TODO: TEST 7 Pressing Escape during item modification cancels modification
     // TODO: TEST 8 Can add another todo item to list
