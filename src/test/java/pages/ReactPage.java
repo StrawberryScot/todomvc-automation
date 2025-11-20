@@ -40,7 +40,7 @@ public class ReactPage {
         driver.get("https://todomvc.com/examples/react/dist");
     }
 
-   // ACTION methods
+    // ACTION methods
 
     public void clickElement(Optional<WebElement> opt) {
         opt.ifPresent(element -> element.click());
@@ -101,8 +101,7 @@ public class ReactPage {
         List<WebElement> todoItems = getListTodoItems();
         if (index >= todoItems.size()) {
             return Optional.empty();
-        }
-        else {
+        } else {
             return Optional.of(todoItems.get(index));
         }
     }
@@ -138,10 +137,8 @@ public class ReactPage {
     }
 
     public List<WebElement> getListTodoItems() {
-         return driver.findElements(listTodoItemsBy);
+        return driver.findElements(listTodoItemsBy);
     }
-
-
 
 
     // This method handles editing with Escape at different points
@@ -208,16 +205,6 @@ public class ReactPage {
         Optional<WebElement> label = getLabel(index);
         return label.map(WebElement::getText).orElse("");
     }
-
-    // Helper method to check if complete
-//    public boolean isComplete(int index) {
-////        Optional<WebElement> todoOpt = getIndividualTodoItem(index);
-////        if (todoOpt.isEmpty()) {
-////            return false;
-//        }
-//        WebElement todo = todoOpt.get();
-//        String className = todo.getAttribute("class");
-//        return className != null && className.contains("completed");
 
 
     // Helper method to get status bar text
