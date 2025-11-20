@@ -139,6 +139,107 @@ public class ReactPage {
 
     public List<WebElement> getListTodoItems() {
          return driver.findElements(listTodoItemsBy);
-     }
-     
+    }
+
+
+
+
+    // This method handles editing with Escape at different points
+
+    public void editTodoWithEscapeAt(int index, String newText, String escapePoint) {
+        Optional<WebElement> editField = getEditField(index);
+
+        editField.ifPresent(element -> {
+            // Detect OS for correct modifier key
+            String os = System.getProperty("os.name").toLowerCase();
+            CharSequence modifier = os.contains("mac") ? Keys.COMMAND : Keys.CONTROL;
+
+            switch (escapePoint.toLowerCase()) {
+                case "immediately":
+                    element.sendKeys(Keys.ESCAPE);
+                    break;
+
+                case "after_clear":
+                    element.sendKeys(Keys.chord(modifier, "a"));
+                    element.sendKeys(Keys.BACK_SPACE);
+                    element.sendKeys(Keys.ESCAPE);
+                    break;
+
+                case "after_first_char":
+                    element.sendKeys(Keys.chord(modifier, "a"));
+                    element.sendKeys(Keys.BACK_SPACE);
+                    if (!newText.isEmpty()) {
+                        element.sendKeys(newText.substring(0, 1));
+                    }
+                    element.sendKeys(Keys.ESCAPE);
+                    break;
+
+                case "after_partial_edit":
+                    element.sendKeys(Keys.chord(modifier, "a"));
+                    element.sendKeys(Keys.BACK_SPACE);
+                    if (newText.length() > 0) {
+                        int halfLength = Math.max(1, newText.length() / 2);
+                        element.sendKeys(newText.substring(0, halfLength));
+                    }
+                    element.sendKeys(Keys.ESCAPE);
+                    break;
+
+                case "after_full_edit":
+                    element.sendKeys(Keys.chord(modifier, "a"));
+                    element.sendKeys(Keys.BACK_SPACE);
+                    element.sendKeys(newText);
+                    element.sendKeys(Keys.ESCAPE);
+                    break;
+
+                case "after_append":
+                    element.sendKeys(Keys.END);
+                    element.sendKeys(newText);
+                    element.sendKeys(Keys.ESCAPE);
+                    break;
+
+                default:
+                    throw new IllegalArgumentException("Unknown escape point: " + escapePoint);
+            }
+        });
+    }
+
+    // Helper method to get todo text
+    public String getTodoText(int index) {
+        Optional<WebElement> label = getLabel(index);
+        return label.map(WebElement::getText).orElse("");
+    }
+
+    // Helper method to check if complete
+    public boolean isComplete(int index) {
+        Optional<WebElement> todoOpt = getIndividualTodoItem(index);
+        if (todoOpt.isEmpty()) {
+            return false;
+        }
+        WebElement todo = todoOpt.get();
+        String className = todo.getAttribute("class");
+        return className != null && className.contains("completed");
+    }
+
+    // Helper method to get status bar text
+    public String getItemsLeftText() {
+        Optional<WebElement> counter = getItemCountElement();
+        return counter.map(WebElement::getText).orElse("");
+    }
+
+    // Edit method that presses Enter (for TEST 6)
+    public void editTodo(int index, String newText) {
+        Optional<WebElement> editField = getEditField(index);
+
+        editField.ifPresent(element -> {
+            String os = System.getProperty("os.name").toLowerCase();
+            if (os.contains("mac")) {
+                element.sendKeys(Keys.chord(Keys.COMMAND, "a"));
+            } else {
+                element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+            }
+            element.sendKeys(Keys.BACK_SPACE);
+            element.sendKeys(newText);
+            element.sendKeys(Keys.ENTER);
+        });
+    }
 }

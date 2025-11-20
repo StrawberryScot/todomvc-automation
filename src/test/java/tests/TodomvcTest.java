@@ -1,8 +1,8 @@
 package tests;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,7 +40,14 @@ public class TodomvcTest {
         reactPage.clickElement(reactPage.getLabel(0));
         Optional<WebElement> editField = reactPage.getEditField(0);
         editField.ifPresent(element -> {
-            element.sendKeys(Keys.COMMAND, "a");
+            // Detect OS for correct modifier key
+            String os = System.getProperty("os.name").toLowerCase();
+            if (os.contains("mac")) {
+                element.sendKeys(Keys.chord(Keys.COMMAND, "a"));
+            } else {
+                element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+            }
+
             element.sendKeys(Keys.BACK_SPACE);
             element.sendKeys("Walk the dog");
             element.sendKeys(Keys.ENTER);
@@ -56,6 +63,56 @@ public class TodomvcTest {
     // TODO: TEST 3 Can delete a single item
     // TODO: TEST 6 Can modify existing todo item
     // TODO: TEST 7 Pressing Escape during item modification cancels modification
+
+
+// Modification Tests 6 + 7:
+
+    @Test
+    @DisplayName("TEST 6: Can modify existing todo item")
+    public void shouldSuccessfullyModifyExistingTodo() {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+        reactPage.createNewTodo("make a sandwich");
+        assertEquals("make a sandwich", reactPage.getTodoText(0));
+
+        reactPage.editTodo(0, "make a cake");
+
+        assertEquals("make a cake", reactPage.getTodoText(0));
+        assertFalse(reactPage.isComplete(0));
+        assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @CsvSource({
+            "Immediate cancel, Buy milk, Buy bread, immediately",
+            "After typing fully, Clean kitchen, Wash dishes, after_full_edit",
+            "After typing partially, Call dentist, Call d, after_partial_edit",
+            "After clearing, Water plants, '', after_clear",
+            "After appending, Submit report, ' today', after_append"
+    })
+    @DisplayName("TEST 7: Escape cancels modification")
+    public void shouldCancelModificationWhenEscapePressed(
+            String scenario,
+            String originalTodo,
+            String attemptedEdit,
+            String escapePoint) {
+
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+
+        reactPage.createNewTodo(originalTodo);
+        assertEquals(originalTodo, reactPage.getTodoText(0));
+
+        reactPage.editTodoWithEscapeAt(0, attemptedEdit, escapePoint);
+
+        assertEquals(originalTodo, reactPage.getTodoText(0),
+                scenario + ": Todo should remain unchanged after Escape");
+        assertFalse(reactPage.isComplete(0));
+        assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
+    }
+}
+
+
     // TODO: TEST 8 Can add another todo item to list
     // TODO: TEST 15 Can clear complete todo items when >0 completed todo items are listed
     // TODO: Status bar always displays a count of remaining todo items left to do
