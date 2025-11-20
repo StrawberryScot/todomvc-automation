@@ -23,6 +23,7 @@ public class TodomvcTest {
 
     @AfterAll
     static void tearDown() {
+        driver.close();
         driver.quit();
     }
 
@@ -35,13 +36,12 @@ public class TodomvcTest {
         reactPage.createNewTodo("Walk the cat");
         // Optional<WebElement> clearButton = reactPage.getClearButton();
         // assertTrue(clearButton.isEmpty());
-        Thread.sleep(2000);
         reactPage.clickElement(reactPage.getToggleButton(0));
-        Thread.sleep(2000);
         reactPage.clickElement(reactPage.getLabel(0));
-        Thread.sleep(2000);
-        reactPage.getEditField(0).ifPresent(element -> {
-            element.clear();
+        Optional<WebElement> editField = reactPage.getEditField(0);
+        editField.ifPresent(element -> {
+            element.sendKeys(Keys.COMMAND, "a");
+            element.sendKeys(Keys.BACK_SPACE);
             element.sendKeys("Walk the dog");
             element.sendKeys(Keys.ENTER);
         });
@@ -59,17 +59,6 @@ public class TodomvcTest {
     // TODO: TEST 8 Can add another todo item to list
     // TODO: TEST 15 Can clear complete todo items when >0 completed todo items are listed
     // TODO: Status bar always displays a count of remaining todo items left to do
-
-    // example test
-    @Test
-    public void todomvcTitleIsCorrect() {
-        driver = new ChromeDriver();
-        driver.get("https://todomvc.com/examples/react/dist/");
-        String title = driver.getTitle();
-        assertEquals("TodoMVC: React", title);
-        System.out.printf("The title is %s.\n", title);
-        driver.quit();
-    }
 
 
     // To automate later

@@ -58,11 +58,9 @@ public class ReactPage {
 
     // GET methods
 
-    public Optional<WebElement> getEditField(Integer index) throws InterruptedException {
+    public Optional<WebElement> getEditField(Integer index) {
         doubleClickElement(getLabel(index));
-        Thread.sleep(2000);
         Optional<WebElement> opt = getIndividualTodoItem(index);
-        Thread.sleep(2000);
         return opt.flatMap(todoItem -> todoItem
                 .findElements(editItemBy)
                 .stream()
