@@ -8,6 +8,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import java.sql.Array;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ReactPage {
@@ -241,5 +242,19 @@ public class ReactPage {
             element.sendKeys(newText);
             element.sendKeys(Keys.ENTER);
         });
+    }
+
+    public boolean isComplete(int index) {
+        Optional<WebElement> parent = getIndividualTodoItem(index)
+                .flatMap(todoItem -> todoItem
+                .findElements(By.xpath("./.."))
+                .stream()
+                .findFirst());
+        System.out.println(parent.map(webElement -> Objects
+                .requireNonNull(webElement.getAttribute("class"))));
+        return parent.map(webElement -> Objects
+                .requireNonNull(webElement.getAttribute("class"))
+                .contains("completed"))
+                .orElse(false);
     }
 }

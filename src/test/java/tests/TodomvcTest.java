@@ -244,13 +244,46 @@ public class TodomvcTest {
 
 
 
-
-    }
-
     // TODO: TEST 11.1 Can filter incompleted items
     // TODO: TEST 11.2 Can filter completed items
     // TODO: TEST 11.3 Can filter by all items
 
     // TODO: TEST 13 Can mark all todo items as complete
+    @Test
+    @DisplayName("TEST 13 Can mark all todo items as complete")
+    public void shouldMarkAllTodosAsCompleteWhenTogglePressed() {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+
+        reactPage.createNewTodo("Task 1");
+        reactPage.createNewTodo("Task 2");
+        reactPage.createNewTodo("Task 3");
+
+        reactPage.clickElement(reactPage.getToggleButton(1));
+        reactPage.clickElement(reactPage.getToggleAll());
+
+        assertTrue(reactPage.isComplete(0));
+        assertTrue(reactPage.isComplete(1));
+        assertTrue(reactPage.isComplete(2));
+    }
     // TODO: TEST 14 Can mark all todo items as incomplete
+    @Test
+    @DisplayName("TEST 14 Can mark all todo items as incomplete")
+    public void shouldMarkAllTodosAsIncompleteWhenTogglePressed() {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+
+        reactPage.createNewTodo("Task 1");
+        reactPage.createNewTodo("Task 2");
+        reactPage.createNewTodo("Task 3");
+        
+        reactPage.clickElement(reactPage.getToggleButton(1));
+        reactPage.clickElement(reactPage.getToggleAll());
+        reactPage.clickElement(reactPage.getToggleAll());
+
+        assertFalse(reactPage.isComplete(0));
+        assertFalse(reactPage.isComplete(1));
+        assertFalse(reactPage.isComplete(2));
+    }
+}
 
