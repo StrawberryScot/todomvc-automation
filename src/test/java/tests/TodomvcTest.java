@@ -53,6 +53,7 @@ public class TodomvcTest {
         // AAAAAAAAAAA
     }
     // TODO: TEST 2 Can add a value with a single character
+    // test
     // TODO: TEST 3 Can delete a single item
     // TODO: TEST 6 Can modify existing todo item
     // TODO: TEST 7 Pressing Escape during item modification cancels modification
