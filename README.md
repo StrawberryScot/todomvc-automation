@@ -7,10 +7,10 @@
 
 ## Test Coverage & Instructions
 The Test Suite can be implemented for the **Svelte** and **React** frameworks.
-The default Suite runs on Svelte.
+The default suite runs on Svelte.
 To change the framework to React please use the page-modifiers that can be found commented out on lines:
 25, 26, 19, 20
-(And comment out corresponding lines that refer to Reactpage).
+(And comment out corresponding lines that refer to SveltePage).
 
 
 ### Tests Implemented
