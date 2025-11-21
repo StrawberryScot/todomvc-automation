@@ -191,7 +191,7 @@ public class TodomvcTest {
     // TODO: TEST 8: Can add another todo item to list
     @DisplayName("TEST 8: Can add another todo item to list")
     @Test
-    public void shouldAddItemToPopulatedList() throws InterruptedException {
+    public void shouldAddItemToPopulatedList() {
         ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
         int initialCount = reactPage.getListTodoItems().size();
@@ -208,7 +208,7 @@ public class TodomvcTest {
     // TODO TEST 15: Can clear complete todo items when >0 completed todo items are listed
     @DisplayName("TEST 15: Can clear complete todo items when >0 completed todo items are listed")
     @Test
-    public void shouldClearCompletedItemsWhenMoreThanZeroCompleted() throws InterruptedException {
+    public void shouldClearCompletedItemsWhenMoreThanZeroCompleted() {
         ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
 
@@ -276,7 +276,7 @@ public class TodomvcTest {
             "Coffee break ☕"
     })
     @DisplayName("TEST 5 Can add emoji characters (with and without text)")
-    public void shouldAddEmojis(String newTodo) throws InterruptedException {
+    public void shouldAddEmojis(String newTodo) {
 
         ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
