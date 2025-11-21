@@ -1,11 +1,17 @@
-# TodoMVC React Test Automation Suite
+# TodoMVC Test Automation Suite
 
 ## Team Members
 - Kathy Peacock
 - Benjamin Loveday
 - Chibu Ihesiene
 
-## Test Coverage
+## Test Coverage & Instructions
+The Test Suite can be implemented for the **Svelte** and **React** frameworks.
+The default Suite runs on Svelte.
+To change the framework to React please use the page-modifiers that can be found commented out on lines:
+25, 26, 19, 20
+(And comment out corresponding lines that refer to Reactpage).
+
 
 ### Tests Implemented
 We have automated the following tests from our test plan:
@@ -30,10 +36,37 @@ We have automated the following tests from our test plan:
 - TEST 13 Can mark all todo items as complete
 - TEST 14 Can mark all todo items as incomplete
 
+
 ## Expected Test Results
 
+
+## SVELTE Framework
+
+### ✅ Passing Tests: [40]
+These tests validate working functionality in the TodoMVC application Svelte Framework.
+
+### ❌ Failing Tests: [2]
+These tests are **expected to fail**
+
+#### Known Bug 1: Adding item with an empty value (TEST 1)
+- **Issue:** Svelte framework allows empty inputs
+- **Expected:** Should not accept todo with empty value
+- **Actual:** Empty todo created.
+- **Tests Affected** TEST 1
+
+#### Known Bug 2: Emoji Encoding (TEST 5)
+- **Issue:** Some emojis are not compatible with ChromeDriver
+- **Expected:** Emojis should display normally
+- **Actual:** Error Message: "unknown error: ChromeDriver only supports characters in the BMP"
+- **Workaround** This only affects ChromeDriver automation. Manual testing successful. FirefoxDriver could be used.
+- **Tests Affected** 1 parameterized test scenario for TEST 5:
+  - "Bug found 🐛"
+
+
+## REACT Framework
+
 ### ✅ Passing Tests: [31]
-These tests validate working functionality in the TodoMVC application.
+These tests validate working functionality in the TodoMVC application React Frameqork.
 
 ### ❌ Failing Tests: [11]
 These tests are **expected to fail** due to known bugs identified during our exploratory testing:
@@ -63,7 +96,7 @@ These tests are **expected to fail** due to known bugs identified during our exp
  
 #### Known Bug 4: Emoji Encoding (TEST 5)
 - **Issue:** Some emojis are not compatible with ChromeDriver
-- **Expected:** Characters like ' " & < > should display normally
+- **Expected:** Emojis should display normally
 - **Actual:** Error Message: "unknown error: ChromeDriver only supports characters in the BMP"
 - **Workaround** This only affects ChromeDriver automation. Manual testing successful. FirefoxDriver could be used.
 - **Tests Affected** 1 parameterized test scenario for TEST 5:
