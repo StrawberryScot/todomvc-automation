@@ -20,7 +20,6 @@ public class ReactPage {
     private By toggleCheckboxBy = By.cssSelector(".toggle");
     private By labelItemBy = By.cssSelector("label");
     private By editItemBy = By.cssSelector("#todo-input");
-    // above is index specific. MUST CHANGE
 
     private final By inputFieldBy = By.id("todo-input");
     private final By listTodoItemsBy = By.cssSelector(".view");
@@ -141,8 +140,6 @@ public class ReactPage {
     public List<WebElement> getListTodoItems() {
          return driver.findElements(listTodoItemsBy);
     }
-
-
 
 
     // This method handles editing with Escape at different points
