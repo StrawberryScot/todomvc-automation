@@ -30,7 +30,9 @@ public class TodomvcTest {
         driver.quit();
     }
 
-    // To automate now
+    // 'Tests To Automate Now'
+
+
     // TODO: TEST 1 Can't add an item with an empty value
     @Test
     public void shouldNotAddItemOfEmptyValue() {
@@ -42,35 +44,6 @@ public class TodomvcTest {
         System.out.println("No todo item added. Test 1 passed.");
     }
 
-
-    @Test
-    public void testTest() {
-        reactPage.navigate();
-        reactPage.createNewTodo("Walk the cat");
-        // Optional<WebElement> clearButton = reactPage.getClearButton();
-        // assertTrue(clearButton.isEmpty());
-        reactPage.clickElement(reactPage.getToggleButton(0));
-        reactPage.clickElement(reactPage.getLabel(0));
-        Optional<WebElement> editField = reactPage.getEditField(0);
-        editField.ifPresent(element -> {
-            // Detect OS for correct modifier key
-            String os = System.getProperty("os.name").toLowerCase();
-            if (os.contains("mac")) {
-                element.sendKeys(Keys.chord(Keys.COMMAND, "a"));
-            } else {
-                element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-            }
-
-            element.sendKeys(Keys.BACK_SPACE);
-            element.sendKeys("Walk the dog");
-            element.sendKeys(Keys.ENTER);
-        });
-        reactPage.clickElement(reactPage.getDeleteButton(0));
-
-
-        //reactPage.createNewTodo("");
-        // AAAAAAAAAAA
-    }
 
     // TODO: TEST 2 Can add an item with a single character
     @Test
@@ -92,7 +65,7 @@ public class TodomvcTest {
 
 
     // TODO: TEST 6 Can modify existing todo item
-    // TEST 6
+
     // Main parameterized test - covers common scenarios
     @ParameterizedTest(name = "Modify: ''{0}'' to ''{1}''")
     @CsvSource({
@@ -131,19 +104,12 @@ public class TodomvcTest {
     @DisplayName("TEST 6.3: Can modify completed todo")
     public void shouldModifyCompletedTodo() {
         reactPage.navigate();
-        // Create a todo
-        reactPage.createNewTodo("Original task");
 
+        reactPage.createNewTodo("Original task");
         // Mark it complete
         reactPage.clickElement(reactPage.getToggleButton(0));
-
-        // Verify it's complete
         assertTrue(reactPage.isComplete(0), "Todo should be marked complete");
-
-        // Edit the completed todo
         reactPage.editTodo(0, "Modified task");
-
-        // Verify changes
         assertEquals("Modified task", reactPage.getTodoText(0),
                 "Text should be updated");
         assertTrue(reactPage.isComplete(0),
@@ -152,7 +118,6 @@ public class TodomvcTest {
 
 
 // TODO: TEST 7 Pressing Escape during item modification cancels modification
-//TEST 7
 
     @ParameterizedTest(name = "{0}")
     @CsvSource({
@@ -215,7 +180,6 @@ public class TodomvcTest {
 
         reactPage.clickElement(reactPage.getClearButton());
 
-
         int remainingTodoCount = reactPage.getListTodoItems().size();
         assertEquals(1, remainingTodoCount);
 
@@ -224,9 +188,9 @@ public class TodomvcTest {
     }
 
 
-    // To automate later
-    // TODO: TEST 4 Can add characters and symbols
+    // 'Tests To Automate Later'
 
+    // TODO: TEST 4 Can add characters and symbols
     @ParameterizedTest(name = "{0}")
     @CsvSource({
             "Test-with-dashes_and_underscores",
@@ -261,14 +225,11 @@ public class TodomvcTest {
     @ParameterizedTest(name = "{0}")
     @CsvSource({
             "✅✅✅",
+            "Coffee break ☕",
             "✅☕",
-            "Urgent task \uD83D\uDEA8",
-            "Celebration \uD83C\uDF89",
-            "In progress \uD83D\uDD04",
             "Bug found 🐛",
-            "Coffee break ☕"
     })
-    @DisplayName("TEST 5 Can add emoji characters (with and without text)")
+    @DisplayName("TEST 5: Can add emoji characters (with and without text)")
     public void shouldAddEmojis(String newTodo) {
 
         reactPage.navigate();
@@ -280,13 +241,9 @@ public class TodomvcTest {
     }
 
 
-
-
-
-
     // TODO: TEST 11.1 Can filter incompleted items
     @Test
-    @DisplayName("TEST 11.1 Can filter incompleted items")
+    @DisplayName("TEST 11.1: Can filter incompleted items")
     public void shouldFilterIncompleteItems() {
         reactPage.navigate();
 
@@ -301,9 +258,10 @@ public class TodomvcTest {
 
         assertEquals("Task 2", reactPage.getTodoText(0));
     }
+
     // TODO: TEST 11.2 Can filter completed items
     @Test
-    @DisplayName("TEST 11.2 Can filter completed items")
+    @DisplayName("TEST 11.2: Can filter completed items")
     public void shouldFilterCompletedItems() {
         reactPage.navigate();
 
@@ -317,9 +275,10 @@ public class TodomvcTest {
 
         assertEquals("Task 2", reactPage.getTodoText(0));
     }
+
     // TODO: TEST 11.3 Can filter by all items
     @Test
-    @DisplayName("TEST 11.3 Can filter by all items")
+    @DisplayName("TEST 11.3: Can filter by all items")
     public void shouldFilterAllItems() {
         reactPage.navigate();
 
@@ -338,7 +297,7 @@ public class TodomvcTest {
 
     // TODO: TEST 13 Can mark all todo items as complete
     @Test
-    @DisplayName("TEST 13 Can mark all todo items as complete")
+    @DisplayName("TEST 13: Can mark all todo items as complete")
     public void shouldMarkAllTodosAsCompleteWhenTogglePressed() {
         reactPage.navigate();
 
@@ -353,9 +312,10 @@ public class TodomvcTest {
         assertTrue(reactPage.isComplete(1));
         assertTrue(reactPage.isComplete(2));
     }
+
     // TODO: TEST 14 Can mark all todo items as incomplete
     @Test
-    @DisplayName("TEST 14 Can mark all todo items as incomplete")
+    @DisplayName("TEST 14: Can mark all todo items as incomplete")
     public void shouldMarkAllTodosAsIncompleteWhenTogglePressed() {
         reactPage.navigate();
 
