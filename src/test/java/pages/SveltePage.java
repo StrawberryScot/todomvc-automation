@@ -19,10 +19,10 @@ public class SveltePage {
     private By buttonDeleteBy = By.cssSelector(".destroy");
     private By toggleCheckboxBy = By.cssSelector(".toggle");
     private By labelItemBy = By.cssSelector("label");
-    private By editItemBy = By.cssSelector("#todo-input");
+    private By editItemBy = By.id("edit-todo-input");
     // above is index specific. MUST CHANGE
 
-    private final By inputFieldBy = By.id("todo-input");
+    private final By inputFieldBy = By.cssSelector(".new-todo");
     private final By listTodoItemsBy = By.cssSelector(".view");
     private final By toggleSelectAllBy = By.id("toggle-all");
     private final By buttonFilterAllBy = By.linkText("All");
@@ -38,7 +38,7 @@ public class SveltePage {
 
     // navigation
     public void navigate() {
-        driver.get("https://todomvc.com/examples/react/dist");
+        driver.get("https://todomvc.com/examples/svelte/dist/");
     }
 
     // ACTION methods
@@ -61,11 +61,9 @@ public class SveltePage {
 
     public Optional<WebElement> getEditField(Integer index) {
         doubleClickElement(getLabel(index));
-        Optional<WebElement> opt = getIndividualTodoItem(index);
-        return opt.flatMap(todoItem -> todoItem
-                .findElements(editItemBy)
+        return driver.findElements(editItemBy)
                 .stream()
-                .findFirst());
+                .findFirst();
     }
 
     public Optional<WebElement> getDeleteButton(Integer index) {
@@ -135,7 +133,15 @@ public class SveltePage {
 
     public Optional<WebElement> getToggleAll() {
         List<WebElement> elements = driver.findElements(toggleSelectAllBy);
-        return elements.stream().findFirst();
+        return elements.stream().findFirst()
+                .flatMap(toggle -> toggle
+                .findElements(By.xpath("./.."))
+                .stream()
+                .findFirst())
+                .flatMap(toggleContainer -> toggleContainer
+                .findElements(labelItemBy)
+                .stream()
+                .findFirst());
     }
 
     public List<WebElement> getListTodoItems() {
@@ -228,6 +234,7 @@ public class SveltePage {
             } else {
                 element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
             }
+            System.out.println(element);
             element.sendKeys(Keys.BACK_SPACE);
             element.sendKeys(newText);
             element.sendKeys(Keys.ENTER);

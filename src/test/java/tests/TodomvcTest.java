@@ -16,12 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TodomvcTest {
     private static WebDriver driver;
-    private static ReactPage reactPage;
+    private static SveltePage reactPage;
 
     @BeforeAll
     static void setUp() {
         driver = new ChromeDriver();
-        reactPage = new ReactPage(driver);
+        reactPage = new SveltePage(driver);
     }
 
     @AfterAll
