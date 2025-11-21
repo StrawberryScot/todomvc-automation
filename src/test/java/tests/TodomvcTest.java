@@ -61,6 +61,7 @@ public class TodomvcTest {
         reactPage.createNewTodo("task");
         reactPage.clickElement(reactPage.getDeleteButton(0));
         assertEquals(Optional.empty(), reactPage.getIndividualTodoItem(0));
+        System.out.println("Item deleted. Test 3 passed.");
     }
 
 
