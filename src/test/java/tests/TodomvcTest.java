@@ -41,7 +41,7 @@ public class TodomvcTest {
 
 
     @Test
-    public void testTest() throws InterruptedException {
+    public void testTest() {
         ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
         reactPage.createNewTodo("Walk the cat");
@@ -188,9 +188,46 @@ public class TodomvcTest {
     }
 
 
-    // TODO: TEST 8 Can add another todo item to list
-    // TODO: TEST 15 Can clear complete todo items when >0 completed todo items are listed
-    // TODO: Status bar always displays a count of remaining todo items left to do
+    // TODO: TEST 8: Can add another todo item to list
+    @DisplayName("TEST 8: Can add another todo item to list")
+    @Test
+    public void shouldAddItemToPopulatedList() throws InterruptedException {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+        int initialCount = reactPage.getListTodoItems().size();
+        System.out.println("The initial count is " + initialCount);
+        reactPage.createNewTodo("Walk the cat");
+        System.out.println("Now the count is " + reactPage.getListTodoItems().size());
+        reactPage.createNewTodo("Groom Fish");
+
+        assertEquals(2, reactPage.getListTodoItems().size());
+        assertEquals("Groom Fish", reactPage.getTodoText(1));
+
+    }
+
+    // TODO TEST 15: Can clear complete todo items when >0 completed todo items are listed
+    @DisplayName("TEST 15: Can clear complete todo items when >0 completed todo items are listed")
+    @Test
+    public void shouldClearCompletedItemsWhenMoreThanZeroCompleted() throws InterruptedException {
+        ReactPage reactPage = new ReactPage(driver);
+        reactPage.navigate();
+
+        reactPage.createNewTodo("Walk the cat");
+        reactPage.createNewTodo("Groom the fish");
+        reactPage.createNewTodo("Feed the dragon");
+
+        reactPage.clickElement(reactPage.getToggleButton(0));
+        reactPage.clickElement(reactPage.getToggleButton(1));
+
+        reactPage.clickElement(reactPage.getClearButton());
+
+
+        int remainingTodoCount = reactPage.getListTodoItems().size();
+        assertEquals(1, remainingTodoCount);
+
+        String remainingText = reactPage.getTodoText(0);
+        assertEquals("Feed the dragon", remainingText);
+    }
 
 
     // To automate later
@@ -245,7 +282,6 @@ public class TodomvcTest {
         reactPage.navigate();
 
         reactPage.createNewTodo(newTodo);
-        Thread.sleep(2000);
         assertEquals(newTodo, reactPage.getTodoText(0));
         assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
         System.out.println(newTodo + " successfully added.");
