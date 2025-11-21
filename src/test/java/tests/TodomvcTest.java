@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.ReactPage;
+import pages.SveltePage;
 
 import java.util.Optional;
 
@@ -15,10 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TodomvcTest {
     private static WebDriver driver;
+    private static ReactPage reactPage;
 
     @BeforeAll
     static void setUp() {
         driver = new ChromeDriver();
+        reactPage = new ReactPage(driver);
     }
 
     @AfterAll
@@ -31,7 +34,7 @@ public class TodomvcTest {
     // TODO: TEST 1 Can't add an item with an empty value
     @Test
     public void shouldNotAddItemOfEmptyValue() {
-        ReactPage reactPage = new ReactPage(driver);
+
         reactPage.navigate();
         reactPage.createNewTodo("");
 
@@ -42,7 +45,6 @@ public class TodomvcTest {
 
     @Test
     public void testTest() {
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
         reactPage.createNewTodo("Walk the cat");
         // Optional<WebElement> clearButton = reactPage.getClearButton();
@@ -73,7 +75,6 @@ public class TodomvcTest {
     // TODO: TEST 2 Can add an item with a single character
     @Test
     public void shouldAddItemWithSingleCharacter() {
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
         reactPage.createNewTodo("a");
         System.out.println(reactPage.getIndividualTodoItem(0));
@@ -83,7 +84,6 @@ public class TodomvcTest {
     // TODO: TEST 3 Can delete a single item
     @Test
     public void canDeleteSingleItem() {
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
         reactPage.createNewTodo("task");
         reactPage.clickElement(reactPage.getDeleteButton(0));
@@ -105,7 +105,6 @@ public class TodomvcTest {
     })
     @DisplayName("TEST 6.1: Can modify existing todo item")
     public void shouldSuccessfullyModifyExistingTodo(String original, String modified) {
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
 
         reactPage.createNewTodo(original);
@@ -120,7 +119,6 @@ public class TodomvcTest {
     @Test
     @DisplayName("TEST 6.2: Can modify same todo multiple times")
     public void shouldModifyMultipleTimes() {
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
         reactPage.createNewTodo("V1");
         reactPage.editTodo(0, "V2");
@@ -132,7 +130,6 @@ public class TodomvcTest {
     @Test
     @DisplayName("TEST 6.3: Can modify completed todo")
     public void shouldModifyCompletedTodo() {
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
         // Create a todo
         reactPage.createNewTodo("Original task");
@@ -172,7 +169,6 @@ public class TodomvcTest {
             String attemptedEdit,
             String escapePoint) {
 
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
 
         reactPage.createNewTodo(originalTodo);
@@ -192,7 +188,6 @@ public class TodomvcTest {
     @DisplayName("TEST 8: Can add another todo item to list")
     @Test
     public void shouldAddItemToPopulatedList() {
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
         int initialCount = reactPage.getListTodoItems().size();
         System.out.println("The initial count is " + initialCount);
@@ -209,7 +204,6 @@ public class TodomvcTest {
     @DisplayName("TEST 15: Can clear complete todo items when >0 completed todo items are listed")
     @Test
     public void shouldClearCompletedItemsWhenMoreThanZeroCompleted() {
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
 
         reactPage.createNewTodo("Walk the cat");
@@ -254,7 +248,6 @@ public class TodomvcTest {
     @DisplayName("TEST 4: Can add characters and symbols.")
     public void shouldAddCharactersAndSymbols(String newTodo) {
 
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
 
         reactPage.createNewTodo(newTodo);
@@ -278,7 +271,6 @@ public class TodomvcTest {
     @DisplayName("TEST 5 Can add emoji characters (with and without text)")
     public void shouldAddEmojis(String newTodo) {
 
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
 
         reactPage.createNewTodo(newTodo);
@@ -296,7 +288,6 @@ public class TodomvcTest {
     @Test
     @DisplayName("TEST 11.1 Can filter incompleted items")
     public void shouldFilterIncompleteItems() {
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
 
         reactPage.createNewTodo("Task 1");
@@ -314,7 +305,6 @@ public class TodomvcTest {
     @Test
     @DisplayName("TEST 11.2 Can filter completed items")
     public void shouldFilterCompletedItems() {
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
 
         reactPage.createNewTodo("Task 1");
@@ -331,7 +321,6 @@ public class TodomvcTest {
     @Test
     @DisplayName("TEST 11.3 Can filter by all items")
     public void shouldFilterAllItems() {
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
 
         reactPage.createNewTodo("Task 1");
@@ -351,7 +340,6 @@ public class TodomvcTest {
     @Test
     @DisplayName("TEST 13 Can mark all todo items as complete")
     public void shouldMarkAllTodosAsCompleteWhenTogglePressed() {
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
 
         reactPage.createNewTodo("Task 1");
@@ -369,7 +357,6 @@ public class TodomvcTest {
     @Test
     @DisplayName("TEST 14 Can mark all todo items as incomplete")
     public void shouldMarkAllTodosAsIncompleteWhenTogglePressed() {
-        ReactPage reactPage = new ReactPage(driver);
         reactPage.navigate();
 
         reactPage.createNewTodo("Task 1");
