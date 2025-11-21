@@ -22,7 +22,7 @@ public class SveltePage {
     private By editItemBy = By.cssSelector("#todo-input");
     // above is index specific. MUST CHANGE
 
-    private final By inputFieldBy = By.id("todo-input");
+    private final By inputFieldBy = By.cssSelector(".new-todo");
     private final By listTodoItemsBy = By.cssSelector(".view");
     private final By toggleSelectAllBy = By.id("toggle-all");
     private final By buttonFilterAllBy = By.linkText("All");
@@ -38,7 +38,7 @@ public class SveltePage {
 
     // navigation
     public void navigate() {
-        driver.get("https://todomvc.com/examples/react/dist");
+        driver.get("https://todomvc.com/examples/svelte/dist/");
     }
 
     // ACTION methods
