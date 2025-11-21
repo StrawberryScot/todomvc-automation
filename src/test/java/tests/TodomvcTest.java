@@ -16,12 +16,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TodomvcTest {
     private static WebDriver driver;
-    private static SveltePage reactPage;
+    private static SveltePage page;
+    // private static ReactPage page;
 
     @BeforeAll
     static void setUp() {
         driver = new ChromeDriver();
-        reactPage = new SveltePage(driver);
+        page = new SveltePage(driver);
+        //  page = new ReactPage(driver);
     }
 
     @AfterAll
@@ -37,10 +39,10 @@ public class TodomvcTest {
     @Test
     public void shouldNotAddItemOfEmptyValue() {
 
-        reactPage.navigate();
-        reactPage.createNewTodo("");
+        page.navigate();
+        page.createNewTodo("");
 
-        assertEquals(Optional.empty(), reactPage.getIndividualTodoItem(0));
+        assertEquals(Optional.empty(), page.getIndividualTodoItem(0));
         System.out.println("No todo item added. Test 1 passed.");
     }
 
@@ -48,19 +50,19 @@ public class TodomvcTest {
     // TODO: TEST 2 Can add an item with a single character
     @Test
     public void shouldAddItemWithSingleCharacter() {
-        reactPage.navigate();
-        reactPage.createNewTodo("a");
-        System.out.println(reactPage.getIndividualTodoItem(0));
-        assertEquals("a", reactPage.getLabel(0).get().getText());
+        page.navigate();
+        page.createNewTodo("a");
+        System.out.println(page.getIndividualTodoItem(0));
+        assertEquals("a", page.getLabel(0).get().getText());
     }
 
     // TODO: TEST 3 Can delete a single item
     @Test
     public void canDeleteSingleItem() {
-        reactPage.navigate();
-        reactPage.createNewTodo("task");
-        reactPage.clickElement(reactPage.getDeleteButton(0));
-        assertEquals(Optional.empty(), reactPage.getIndividualTodoItem(0));
+        page.navigate();
+        page.createNewTodo("task");
+        page.clickElement(page.getDeleteButton(0));
+        assertEquals(Optional.empty(), page.getIndividualTodoItem(0));
         System.out.println("Item deleted. Test 3 passed.");
     }
 
@@ -79,41 +81,41 @@ public class TodomvcTest {
     })
     @DisplayName("TEST 6.1: Can modify existing todo item")
     public void shouldSuccessfullyModifyExistingTodo(String original, String modified) {
-        reactPage.navigate();
+        page.navigate();
 
-        reactPage.createNewTodo(original);
-        reactPage.editTodo(0, modified);
+        page.createNewTodo(original);
+        page.editTodo(0, modified);
 
-        assertEquals(modified, reactPage.getTodoText(0));
-//            assertFalse(reactPage.isComplete(0));
-        assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
+        assertEquals(modified, page.getTodoText(0));
+//            assertFalse(page.isComplete(0));
+        assertTrue(page.getItemsLeftText().contains("1 item left"));
     }
 
     // Specific edge case - multiple edits on single todo
     @Test
     @DisplayName("TEST 6.2: Can modify same todo multiple times")
     public void shouldModifyMultipleTimes() {
-        reactPage.navigate();
-        reactPage.createNewTodo("V1");
-        reactPage.editTodo(0, "V2");
-        reactPage.editTodo(0, "V3");
-        assertEquals("V3", reactPage.getTodoText(0));
+        page.navigate();
+        page.createNewTodo("V1");
+        page.editTodo(0, "V2");
+        page.editTodo(0, "V3");
+        assertEquals("V3", page.getTodoText(0));
     }
 
     // Specific edge case - editing completed todo
     @Test
     @DisplayName("TEST 6.3: Can modify completed todo")
     public void shouldModifyCompletedTodo() {
-        reactPage.navigate();
+        page.navigate();
 
-        reactPage.createNewTodo("Original task");
+        page.createNewTodo("Original task");
         // Mark it complete
-        reactPage.clickElement(reactPage.getToggleButton(0));
-        assertTrue(reactPage.isComplete(0), "Todo should be marked complete");
-        reactPage.editTodo(0, "Modified task");
-        assertEquals("Modified task", reactPage.getTodoText(0),
+        page.clickElement(page.getToggleButton(0));
+        assertTrue(page.isComplete(0), "Todo should be marked complete");
+        page.editTodo(0, "Modified task");
+        assertEquals("Modified task", page.getTodoText(0),
                 "Text should be updated");
-        assertTrue(reactPage.isComplete(0),
+        assertTrue(page.isComplete(0),
                 "Todo should remain complete after editing");
     }
 
@@ -135,17 +137,17 @@ public class TodomvcTest {
             String attemptedEdit,
             String escapePoint) {
 
-        reactPage.navigate();
+        page.navigate();
 
-        reactPage.createNewTodo(originalTodo);
-        assertEquals(originalTodo, reactPage.getTodoText(0));
+        page.createNewTodo(originalTodo);
+        assertEquals(originalTodo, page.getTodoText(0));
 
-        reactPage.editTodoWithEscapeAt(0, attemptedEdit, escapePoint);
+        page.editTodoWithEscapeAt(0, attemptedEdit, escapePoint);
 
-        assertEquals(originalTodo, reactPage.getTodoText(0),
+        assertEquals(originalTodo, page.getTodoText(0),
                 scenario + ": Todo should remain unchanged after Escape");
-//        assertFalse(reactPage.isComplete(0));
-        assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
+//        assertFalse(page.isComplete(0));
+        assertTrue(page.getItemsLeftText().contains("1 item left"));
 
     }
 
@@ -154,15 +156,15 @@ public class TodomvcTest {
     @DisplayName("TEST 8: Can add another todo item to list")
     @Test
     public void shouldAddItemToPopulatedList() {
-        reactPage.navigate();
-        int initialCount = reactPage.getListTodoItems().size();
+        page.navigate();
+        int initialCount = page.getListTodoItems().size();
         System.out.println("The initial count is " + initialCount);
-        reactPage.createNewTodo("Walk the cat");
-        System.out.println("Now the count is " + reactPage.getListTodoItems().size());
-        reactPage.createNewTodo("Groom Fish");
+        page.createNewTodo("Walk the cat");
+        System.out.println("Now the count is " + page.getListTodoItems().size());
+        page.createNewTodo("Groom Fish");
 
-        assertEquals(2, reactPage.getListTodoItems().size());
-        assertEquals("Groom Fish", reactPage.getTodoText(1));
+        assertEquals(2, page.getListTodoItems().size());
+        assertEquals("Groom Fish", page.getTodoText(1));
 
     }
 
@@ -170,21 +172,21 @@ public class TodomvcTest {
     @DisplayName("TEST 15: Can clear complete todo items when >0 completed todo items are listed")
     @Test
     public void shouldClearCompletedItemsWhenMoreThanZeroCompleted() {
-        reactPage.navigate();
+        page.navigate();
 
-        reactPage.createNewTodo("Walk the cat");
-        reactPage.createNewTodo("Groom the fish");
-        reactPage.createNewTodo("Feed the dragon");
+        page.createNewTodo("Walk the cat");
+        page.createNewTodo("Groom the fish");
+        page.createNewTodo("Feed the dragon");
 
-        reactPage.clickElement(reactPage.getToggleButton(0));
-        reactPage.clickElement(reactPage.getToggleButton(1));
+        page.clickElement(page.getToggleButton(0));
+        page.clickElement(page.getToggleButton(1));
 
-        reactPage.clickElement(reactPage.getClearButton());
+        page.clickElement(page.getClearButton());
 
-        int remainingTodoCount = reactPage.getListTodoItems().size();
+        int remainingTodoCount = page.getListTodoItems().size();
         assertEquals(1, remainingTodoCount);
 
-        String remainingText = reactPage.getTodoText(0);
+        String remainingText = page.getTodoText(0);
         assertEquals("Feed the dragon", remainingText);
     }
 
@@ -213,11 +215,11 @@ public class TodomvcTest {
     @DisplayName("TEST 4: Can add characters and symbols.")
     public void shouldAddCharactersAndSymbols(String newTodo) {
 
-        reactPage.navigate();
+        page.navigate();
 
-        reactPage.createNewTodo(newTodo);
-        assertEquals(newTodo, reactPage.getTodoText(0));
-        assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
+        page.createNewTodo(newTodo);
+        assertEquals(newTodo, page.getTodoText(0));
+        assertTrue(page.getItemsLeftText().contains("1 item left"));
         System.out.println(newTodo + " successfully added.");
     }
 
@@ -233,11 +235,11 @@ public class TodomvcTest {
     @DisplayName("TEST 5: Can add emoji characters (with and without text)")
     public void shouldAddEmojis(String newTodo) {
 
-        reactPage.navigate();
+        page.navigate();
 
-        reactPage.createNewTodo(newTodo);
-        assertEquals(newTodo, reactPage.getTodoText(0));
-        assertTrue(reactPage.getItemsLeftText().contains("1 item left"));
+        page.createNewTodo(newTodo);
+        assertEquals(newTodo, page.getTodoText(0));
+        assertTrue(page.getItemsLeftText().contains("1 item left"));
         System.out.println(newTodo + " successfully added.");
     }
 
@@ -246,91 +248,91 @@ public class TodomvcTest {
     @Test
     @DisplayName("TEST 11.1: Can filter incompleted items")
     public void shouldFilterIncompleteItems() {
-        reactPage.navigate();
+        page.navigate();
 
-        reactPage.createNewTodo("Task 1");
-        reactPage.createNewTodo("Task 2");
-        reactPage.createNewTodo("Task 3");
+        page.createNewTodo("Task 1");
+        page.createNewTodo("Task 2");
+        page.createNewTodo("Task 3");
 
-        reactPage.clickElement(reactPage.getToggleButton(0));
-        reactPage.clickElement(reactPage.getToggleButton(2));
+        page.clickElement(page.getToggleButton(0));
+        page.clickElement(page.getToggleButton(2));
 
-        reactPage.clickElement(reactPage.getFilterActiveButton());
+        page.clickElement(page.getFilterActiveButton());
 
-        assertEquals("Task 2", reactPage.getTodoText(0));
+        assertEquals("Task 2", page.getTodoText(0));
     }
 
     // TODO: TEST 11.2 Can filter completed items
     @Test
     @DisplayName("TEST 11.2: Can filter completed items")
     public void shouldFilterCompletedItems() {
-        reactPage.navigate();
+        page.navigate();
 
-        reactPage.createNewTodo("Task 1");
-        reactPage.createNewTodo("Task 2");
-        reactPage.createNewTodo("Task 3");
+        page.createNewTodo("Task 1");
+        page.createNewTodo("Task 2");
+        page.createNewTodo("Task 3");
 
-        reactPage.clickElement(reactPage.getToggleButton(1));
+        page.clickElement(page.getToggleButton(1));
 
-        reactPage.clickElement(reactPage.getFilterCompletedButton());
+        page.clickElement(page.getFilterCompletedButton());
 
-        assertEquals("Task 2", reactPage.getTodoText(0));
+        assertEquals("Task 2", page.getTodoText(0));
     }
 
     // TODO: TEST 11.3 Can filter by all items
     @Test
     @DisplayName("TEST 11.3: Can filter by all items")
     public void shouldFilterAllItems() {
-        reactPage.navigate();
+        page.navigate();
 
-        reactPage.createNewTodo("Task 1");
-        reactPage.createNewTodo("Task 2");
-        reactPage.createNewTodo("Task 3");
+        page.createNewTodo("Task 1");
+        page.createNewTodo("Task 2");
+        page.createNewTodo("Task 3");
 
-        reactPage.clickElement(reactPage.getToggleButton(1));
+        page.clickElement(page.getToggleButton(1));
 
-        reactPage.clickElement(reactPage.getFilterAllButton());
+        page.clickElement(page.getFilterAllButton());
 
-        assertEquals("Task 1", reactPage.getTodoText(0));
-        assertEquals("Task 2", reactPage.getTodoText(1));
-        assertEquals("Task 3", reactPage.getTodoText(2));
+        assertEquals("Task 1", page.getTodoText(0));
+        assertEquals("Task 2", page.getTodoText(1));
+        assertEquals("Task 3", page.getTodoText(2));
     }
 
     // TODO: TEST 13 Can mark all todo items as complete
     @Test
     @DisplayName("TEST 13: Can mark all todo items as complete")
     public void shouldMarkAllTodosAsCompleteWhenTogglePressed() {
-        reactPage.navigate();
+        page.navigate();
 
-        reactPage.createNewTodo("Task 1");
-        reactPage.createNewTodo("Task 2");
-        reactPage.createNewTodo("Task 3");
+        page.createNewTodo("Task 1");
+        page.createNewTodo("Task 2");
+        page.createNewTodo("Task 3");
 
-        reactPage.clickElement(reactPage.getToggleButton(1));
-        reactPage.clickElement(reactPage.getToggleAll());
+        page.clickElement(page.getToggleButton(1));
+        page.clickElement(page.getToggleAll());
 
-        assertTrue(reactPage.isComplete(0));
-        assertTrue(reactPage.isComplete(1));
-        assertTrue(reactPage.isComplete(2));
+        assertTrue(page.isComplete(0));
+        assertTrue(page.isComplete(1));
+        assertTrue(page.isComplete(2));
     }
 
     // TODO: TEST 14 Can mark all todo items as incomplete
     @Test
     @DisplayName("TEST 14: Can mark all todo items as incomplete")
     public void shouldMarkAllTodosAsIncompleteWhenTogglePressed() {
-        reactPage.navigate();
+        page.navigate();
 
-        reactPage.createNewTodo("Task 1");
-        reactPage.createNewTodo("Task 2");
-        reactPage.createNewTodo("Task 3");
+        page.createNewTodo("Task 1");
+        page.createNewTodo("Task 2");
+        page.createNewTodo("Task 3");
 
-        reactPage.clickElement(reactPage.getToggleButton(1));
-        reactPage.clickElement(reactPage.getToggleAll());
-        reactPage.clickElement(reactPage.getToggleAll());
+        page.clickElement(page.getToggleButton(1));
+        page.clickElement(page.getToggleAll());
+        page.clickElement(page.getToggleAll());
 
-        assertFalse(reactPage.isComplete(0));
-        assertFalse(reactPage.isComplete(1));
-        assertFalse(reactPage.isComplete(2));
+        assertFalse(page.isComplete(0));
+        assertFalse(page.isComplete(1));
+        assertFalse(page.isComplete(2));
     }
 }
 
